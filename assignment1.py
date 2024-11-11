@@ -102,30 +102,29 @@ def valid_date(date: str) -> bool:
 
 def day_iter(start_date: str, num: int) -> str:
     "Iterates from start date by num to return end date in DD/MM/YYYY"
-    date = start_date
+    date = start_date  # Starts with the initial date
     for _ in range(abs(num)):
-        if num > 0:
-            date = after(date)
-        else:
-            date = before(date)
-    return date
+        # Determines the direction of date change: forward for positive `num`, backward for negative
+        date = after(date) if num > 0 else before(date)
+    return date  # Returns the final date after iterating
 
 if __name__ == "__main__":
-    # Check length of arguments
+    # Ensures the user provides exactly 3 arguments; if not, shows usage instructions
     if len(sys.argv) != 3:
-        usage()
+        usage()  
     
-    start_date = sys.argv[1]
+    start_date = sys.argv[1]  # First argument should be the starting date
     try:
+        # Converts the second argument to an integer to check if it represents a valid number of days
         num_days = int(sys.argv[2])
     except ValueError:
-        usage()
+        usage()  # If the second argument isn’t a number, show usage instructions
     
-    # Check first arg is a valid date
+    # Validates the format and values of the provided start date
     if not valid_date(start_date):
-        usage()
+        usage()  # Show usage instructions if the date is invalid
     
-    # Call day_iter function to get end date, save to x
+    # Calculates the end date by iterating from the start date by `num_days`
     end_date = day_iter(start_date, num_days)
-    # Print the end date with the day of the week
-    print(f'The end date is {day_of_week(end_date)}, {end_date}.')
+    # Outputs the end date with its corresponding day of the week
+    print(f"The end date is {day_of_week(end_date)}, {end_date}.")
